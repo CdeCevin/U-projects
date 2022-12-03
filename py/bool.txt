@@ -1,0 +1,37 @@
+Boolenao
+Usa: nada
+Sintaxis
+    verdadero():     ->Boolenao
+    falso():        ->Boolenao 
+    negación(): Boolenao     ->Boolenao
+    conjunción(): Boolenao, Boolenao     ->Boolenao
+    disyunción(): Boolenao, Boolenao    ->Boolenao
+    implicancia(): Boolenao, Boolenao       ->Boolenao
+    equivalencia(): Boolenao, Boolenao      ->Boolenao
+    xor(): Boolenao, Boolenao       ->Boolenao
+    non(): Boolenao, Boolenao       ->Boolenao
+    Demorgan(): Boolenao        ->Boolenao
+    Axiomas:
+    negación(verdadero()) == falso()
+    negación(falso()) == verdadero()
+
+    conjunción(verdadero(), b) == b
+    conjunción(falso(), b) == falso()
+
+    disyunción(verdadero(), b) == verdadero()
+    disyunción(falso(), b) == b
+     
+    implicancia(verdadero(), b) == b
+    implicancia(falso(), b) == verdadero()
+
+    equivalencia(verdadero(), b) == b
+    equivalencia(falso(), b) == negación(b)
+
+    xor(verdadero(), b) == b   ///////// equivalencia( verdadero() , b)
+    xor(falso(), b) == negacion(b) //////// equivalencia( falso() , b)
+
+    non(verdadero(), b) == negación(b)
+    non(falso(), b) == verdadero()
+
+    Demorgan(negacion(conjunción(a,b))) == disyunción(negación(a), negagación(b))
+    Demorgan(negacion(disyunción(a,b))) == conjunción(negación(a), negagación(b))

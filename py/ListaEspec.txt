@@ -1,0 +1,79 @@
+Lista
+usa: booleanos
+Aintaxis: 
+    crear:    -> Lista {c}
+    crearU: -> Lista
+    añadirDer: elem, Lista   -> Lista
+    añadirIzq: elem, Lista   -> Lista {c}
+    izq: Lista -> elem
+    der: Lista -> elem
+    eliminarIzq: Lista -> Lista
+    eleminarDer: Lista -> lista
+    esVacia: Lista -> Booleano
+    concat: Lista,Lista -> Lista
+    longitud: Lista -> Natural
+    Existe: Elemento, Lista -> Booleano
+    PosicionElem: Elemento, Lista -> Natural
+    SonIguales: Lista, Lista -> Booleano
+    capicua: Lista -> Booleano
+    ElimRep: Elemento, Lista -> Lista
+    NoNum: Lista -> Natural
+Axiomas:
+    crear() == null
+    %añadirDer(elem, crear()) == elem
+    %añadirDer(elem, Lista) == elem
+    %añadirIzq(elem, crear()) == elem
+    %añadirIzq(elem, Lista) == elem
+    
+    crearU(e) == añadirIzq(e,crear())
+    crearU(e) == añadirDer(e,Crear())
+
+    añadirDer(e,crear()) == añadirIzq(e,crear())    
+    añadirDer(f,añadirIzq(e,X)) == añadirIzq(e,añadirDer(X,f))
+
+    izq(crear()) == error
+    izq(añadirIzq(elem, lista)) == elem
+    izq(añadirDer(elem, lista)) == elem <- esVacia(lista)
+    izq(añadirDer(elem, lista)) == izq(elem) <- negacion(esVacia(lista))
+        
+    der(crear()) == error
+    der(añadirDer(elem, lista)) == elem
+    der(añadirIzq(elem, lista)) == elem <- esVacia(lista)
+    der(añadirIzq(elem, lista)) == der(elem) <- negación(esVacia(lista))
+
+    eliminarIzq(crear()) == crear()
+    eliminarIzq(añadirDer(elem, lista)) == lista
+    eliminarIzq(añadirDer(elem, lista)) == crear() <- esVacia(lista)
+    eliminarIzq(añadirDer(elem, lista)) == añadirDer(elem,eliminarIzq(Lista)) <- negación(esVacia(lista))
+
+    eliminarDer(crear()) == crear()
+    eliminarDer(añadirIzq(elem, lista)) == crear() <- esVacia(lista)
+    eliminarDer(añadirIzq(elem, lista)) == añadirIzq(elem, eliminarDer(Lista)) <- negación(esVacia(lista))
+
+    esVacia(crear()) == verdadero()
+    esVacia(añadirIzq(elem, lista)) == falso()
+    esVacia(añadirDer(elem, lista)) == falso()
+
+    longitud(crear()) == 0
+    longitud(anDer(crear(),e)) == sucesor(cero())
+    longitud(anDer(L,e)) == sucesor(longitud(L))
+
+    existe(e,crear()) == False
+    existe(e,anIzq(crear(),e)) == True
+    existe(e,anIzq(L,e2)) == True <- existe(e,L) || e==e2
+    
+    posicionElem(e,crear()) == cero()
+    posicionElem(e,anIzq(L,e)) == sucesor(cero())
+    posicionElem(e,anDer(L,e)) == sucesor(posicion(der(L),L))
+
+    capicua(crear()) == True
+    capicua(anIz(crear(),e),anDer(crear(),e)) == True
+    capicua()
+
+    elimRep(crear()) == crear()
+    elimRep(anDer(e,crear())) == anDer(e,crear())
+    elimRep(e,L) == eliminaDer(L) <- der(L) == e
+
+    noNum(crear()) == cero()
+    noNum(anIzq(e,crear())) == sucesor(cero()) <- natural(e)
+    noNum()

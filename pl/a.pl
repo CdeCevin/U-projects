@@ -1,0 +1,20 @@
+crea([]).
+ agrega(E,P,[E|P]).
+
+ inicio2:-write("Ingrese el largo del numero: "),read(N),write("Ingrese el numero: "),read(O),crea(S),anade(O,N,S).
+
+ concatena([],L,L):-!.
+ concatena([X|L1],L2,[X|L3]):-concatena(L1,L2,L3).
+
+ inversa([],[]).
+ inversa([X|Y],L):-inversa(Y,Z),concatena(Z,[X],L).
+
+ calculaLargo(L,N):-len(L,N).
+ len([],0).
+ len([_|C],N):-len(C,M),N is M+1.
+
+ anade(O,N,L):-N==0,inversa(L,L2),write(L2),calculaLargo(L2,B),display(O),display(B),write(L2),display(0),narciso(O,B,B,L2,0),!.
+ anade(O,N,L):-write("Ingrese los digitos del numero: "),read(E),((E<10,agrega(E,L,L2),N2 is N-1,anade(O,N2,L2));(write("Numero no aceptado! Ingrese los digitos del numero!"),nl,anade(O,N,L))).
+
+ narciso(ORIG,_,0,_,M):-(M==ORIG,write("El numero es narciso!");write("El numero no es narciso!")),!.
+ narciso(ORIG,LARGO,CONT,[H|T],M):-nl,write(H),M2 is H^LARGO,M3 is M2+M,CONT2 is CONT-1,narciso(ORIG,LARGO,CONT2,T,M3).

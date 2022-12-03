@@ -1,0 +1,63 @@
+%Metodos a utilizar para manipulacion de listas.
+crear([]).
+agrega(E,[],[E]).
+agrega(E,P,[E|P]).
+
+len([],0).
+len([_|L],N):- len(L,M),N is M+1.
+
+%Valores para cambio hexadecimal.
+valor('a',10).
+valor('b',11).
+valor('c',12).
+valor('d',13).
+valor('e',14).
+valor('f',15).
+valor(V,V).
+
+inicio:-write("Ingrese:"),nl,write("1. Si desea pasar de binario a decimal"),nl,write("2. Si desea pasar de hexadecimal a decimal"),nl,write("2. Si desea pasar de octal a decimal"),nl,read(ENTRADA),nl,((ENTRADA==1,inicioBin);(ENTRADA==2,inicioHex);(ENTRADA==3,inicioOct)).
+
+
+%Recibe un numero binario.
+inicioBin:-write("Ingrese el numero binario: "),read(NUM),split(NUM,NUM,_,_),!.
+
+%Calcula binario a decimal.
+binAdec(0,_,S):-nl,write("El numero en decimal es: "),display(S).
+binAdec(LARGO,[A|B],S):-LARGO2 is LARGO-1,SAL is A*(2^LARGO2),S2 is S+SAL,binAdec(LARGO2,B,S2).
+
+
+%Recibe un numero hexadecimal.
+inicioHex:-write("Ingrese el largo del numero: "),read(LARGO),write("Ingrese el numero hexadecimal numero a numero, ingrese las letras en minusculas: "),nl,leeHex(LARGO,_),!.
+
+leeHex(0,S):-len(S,LAR),hexAdec(LAR,S,0,0),!.
+leeHex(LARGO,S):-read(N),agrega(N,S,S2),LARGO2 is LARGO-1,leeHex(LARGO2,S2).
+
+%Calcula hexadecimal a decimal.
+hexAdec(LARGO,_,S,LARGO):-nl,write("El numero en decimal es: "),display(S).
+hexAdec(LARGO,[A|B],S,IN):-valor(A,X),IN2 is IN+1, SAL is X*(16^IN),S2 is S+SAL,hexAdec(LARGO,B,S2,IN2).
+
+
+%Recibe un numero octal.
+inicioOct:-write("Ingrese el numero octal: "),read(NUM),split3(NUM,NUM,_,_),!.
+
+%Calcula octal a decimal.
+octAdec(0,_,S):-nl,write("El numero en decimal es: "),display(S).
+octAdec(LARGO,[A|B],S):- LARGO2 is LARGO-1, SAL is A*(8^LARGO2),S2 is S+SAL,octAdec(LARGO2,B,S2).
+
+
+% Separacion del numero ingresado en una sola linea a una lista de
+% valores.
+split3(0,_,_,L1):-  len(L1,N),octAdec(N,L1,0).
+split3(M,Aux,Z,L1):- M > 0,MM is floor(M / 10),Z is M mod 10,agrega(Z,L1,L2),split3(MM,Aux,_,L2).
+
+split(0,_,_,L1):-  len(L1,N),binAdec(N,L1,0).
+split(M,Aux,Z,L1):- M > 0,MM is floor(M / 10),Z is M mod 10,agrega(Z,L1,L2),split(MM,Aux,_,L2).
+
+inicioDec:-write("Ingrese el numero decimal"),nl,read(N),crear(L),decAbin(N,L).
+
+decAbin(N,L):-par(N), X is 0, agrega(X,L,L2), N2 is round(N/2), decAbin(N2,L2).
+decAbin(N,L):-not(par(N)), X is 1, agrega(X,L,L2), N2 is round(N/2), decAbin(N2,L2).
+
+
+par(Num):- Modulo is mod(Num,2), Modulo ==0,!.
+par(Num):- Modulo is mod(Num,2), Modulo =\=0,!.
